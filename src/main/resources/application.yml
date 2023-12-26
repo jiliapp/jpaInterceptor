@@ -1,0 +1,34 @@
+micronaut:
+  application:
+    name: jpaInterceptor
+vertx:
+  pg:
+    client:
+      port: ${app.db.port:`5432` }
+      host: ${app.db.host:`localhost` }
+      database: ${app.db.database:`db2` }
+      user: ${app.db.username:`postgres` }
+      password: ${app.db.password:`DEpn1Y9gM3ys2v6g`}
+      maxSize: 5
+
+jpa:
+  default:
+    compile-time-hibernate-proxies: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl:
+          auto: update # create create-drop update validate none
+        connection:
+          db-type: postgres
+          #url: ${app.db.url:`jdbc:postgresql://coarse-gosling-2563.g95.cockroachlabs.cloud:26257/db2?sslmode=verify-ca`}
+          url: "jdbc:postgresql://${vertx.pg.client.host}:${vertx.pg.client.port}/${vertx.pg.client.database}"
+          driverClassName: org.postgresql.Driver
+          username: ${vertx.pg.client.user}
+          password: ${vertx.pg.client.password}
+        show_sql: true
+        format_sql: true
+    reactive: true
+    entity-scan:
+      packages:
+        - com.example.demo2.domain.po
